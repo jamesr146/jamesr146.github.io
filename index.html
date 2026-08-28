@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>James — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:        #16181c;
+    --paper:      #ece7db;
+    --paper-dim:  #b9b3a4;
+    --seal:       #a8342a;
+    --seal-soft:  #7c2820;
+    --wash:       #2a2e34;
+    --wash-line:  #3a3f47;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Fraunces', serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--seal); color:var(--paper); }
+
+  a{ color:inherit; }
+
+  .mono{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.04em;
+  }
+
+  /* ---------- layout shell ---------- */
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter:blur(8px);
+    background:rgba(22,24,28,0.82);
+    border-bottom:1px solid var(--wash-line);
+  }
+  header.nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  .brand{
+    font-weight:700; font-size:1.05rem; letter-spacing:0.02em;
+    display:flex; align-items:center; gap:10px;
+  }
+  .brand-mark{ width:18px; height:18px; flex:none; }
+  nav.links{ display:flex; gap:28px; }
+  nav.links a{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em;
+    text-decoration:none; color:var(--paper-dim);
+    transition:color 0.2s ease;
+  }
+  nav.links a:hover, nav.links a:focus-visible{ color:var(--paper); }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:120px 0 96px;
+    overflow:hidden;
+    border-bottom:1px solid var(--wash-line);
+  }
+  .hero .wrap{ position:relative; z-index:2; }
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem; text-transform:uppercase; letter-spacing:0.14em;
+    color:var(--seal);
+    margin-bottom:20px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .hero-eyebrow::before{
+    content:''; width:26px; height:1px; background:var(--seal);
+  }
+  h1.hero-title{
+    font-size:clamp(2.6rem, 6vw, 4.6rem);
+    font-weight:600;
+    line-height:1.02;
+    letter-spacing:-0.01em;
+    max-width:14ch;
+  }
+  h1.hero-title em{
+    font-style:italic; font-weight:300; color:var(--paper-dim);
+  }
+  .hero-sub{
+    margin-top:26px;
+    max-width:46ch;
+    font-size:1.08rem;
+    line-height:1.6;
+    color:var(--paper-dim);
+    font-weight:300;
+  }
+  .hero-actions{
+    margin-top:38px;
+    display:flex; gap:16px; flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem; letter-spacing:0.06em; text-transform:uppercase;
+    padding:13px 22px;
+    text-decoration:none;
+    border:1px solid var(--wash-line);
+    transition:border-color 0.2s ease, background 0.2s ease;
+  }
+  .btn.primary{ background:var(--seal); border-color:var(--seal); color:var(--paper); }
+  .btn.primary:hover{ background:var(--seal-soft); border-color:var(--seal-soft); }
+  .btn.ghost:hover, .btn.ghost:focus-visible{ border-color:var(--paper-dim); }
+
+  /* ink brush stroke svg */
+  .brushstroke{
+    position:absolute; right:-6%; top:50%; transform:translateY(-50%);
+    width:640px; max-width:60vw; opacity:0.9; z-index:1;
+    pointer-events:none;
+  }
+  .brushstroke path{
+    stroke:var(--seal);
+    fill:none;
+    stroke-width:3;
+    stroke-linecap:round;
+    stroke-dasharray:1400;
+    stroke-dashoffset:1400;
+    animation:draw 2.4s cubic-bezier(.65,0,.35,1) forwards 0.3s;
+  }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+
+  @media (prefers-reduced-motion: reduce){
+    .brushstroke path{ animation:none; stroke-dashoffset:0; }
+    html{ scroll-behavior:auto; }
+  }
+
+  /* ---------- sections ---------- */
+  section.block{ padding:88px 0; border-bottom:1px solid var(--wash-line); }
+  section.block:last-of-type{ border-bottom:none; }
+
+  .block-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin-bottom:44px; gap:24px; flex-wrap:wrap;
+  }
+  .block-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem; color:var(--seal); letter-spacing:0.1em;
+  }
+  h2.block-title{
+    font-size:clamp(1.9rem, 3.4vw, 2.6rem);
+    font-weight:600;
+  }
+  .block-desc{
+    color:var(--paper-dim); font-weight:300; max-width:38ch; font-size:0.98rem; line-height:1.55;
+  }
+
+  /* card grid — shared by code + art so both feel like one collection */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+    gap:22px;
+  }
+  .card{
+    border:1px solid var(--wash-line);
+    background:var(--wash);
+    padding:26px;
+    display:flex; flex-direction:column; gap:14px;
+    text-decoration:none; color:inherit;
+    transition:transform 0.25s ease, border-color 0.25s ease;
+    position:relative;
+  }
+  .card:hover, .card:focus-visible{
+    transform:translateY(-4px);
+    border-color:var(--seal);
+  }
+  .card-media{
+    aspect-ratio:16/10;
+    background:
+      repeating-linear-gradient(135deg, rgba(236,231,219,0.04) 0 2px, transparent 2px 14px),
+      var(--ink);
+    border:1px solid var(--wash-line);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--paper-dim);
+    letter-spacing:0.05em; text-align:center; padding:12px;
+  }
+  .card-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--seal);
+  }
+  .card h3{ font-size:1.15rem; font-weight:600; }
+  .card p{ font-size:0.92rem; color:var(--paper-dim); font-weight:300; line-height:1.5; }
+  .card-footer{
+    margin-top:auto; padding-top:6px;
+    font-family:'IBM Plex Mono', monospace; font-size:0.74rem; color:var(--paper-dim);
+    display:flex; align-items:center; gap:6px;
+  }
+
+  /* about / footer */
+  .about-grid{
+    display:grid; grid-template-columns:1.2fr 1fr; gap:56px; align-items:start;
+  }
+  .about-grid p{ font-weight:300; line-height:1.7; color:var(--paper-dim); max-width:52ch; }
+  .about-grid p + p{ margin-top:16px; }
+  .stack-list{ display:flex; flex-direction:column; gap:10px; }
+  .stack-list li{
+    list-style:none;
+    display:flex; justify-content:space-between;
+    border-bottom:1px solid var(--wash-line);
+    padding-bottom:10px;
+    font-family:'IBM Plex Mono', monospace; font-size:0.82rem;
+  }
+  .stack-list span:last-child{ color:var(--paper-dim); }
+
+  footer{
+    padding:48px 0 64px;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+  }
+  footer .mono{ font-size:0.76rem; color:var(--paper-dim); }
+  footer .socials{ display:flex; gap:20px; }
+  footer .socials a{ font-family:'IBM Plex Mono', monospace; font-size:0.78rem; text-decoration:none; color:var(--paper-dim); }
+  footer .socials a:hover{ color:var(--seal); }
+
+  @media (max-width: 720px){
+    nav.links{ display:none; }
+    .about-grid{ grid-template-columns:1fr; }
+    .brushstroke{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 24 24" fill="none"><path d="M3 12c3-6 15-6 18 0-3 6-15 6-18 0Z" stroke="#a8342a" stroke-width="1.6"/><circle cx="16" cy="12" r="1.3" fill="#a8342a"/></svg>
+      James
+    </div>
+    <nav class="links">
+      <a href="#code">Code</a>
+      <a href="#art">Art</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <svg class="brushstroke" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M40 220 C 140 60, 260 40, 340 120 S 520 260, 560 140" />
+  </svg>
+  <div class="wrap">
+    <div class="hero-eyebrow">Portfolio</div>
+    <h1 class="hero-title">Code &amp; craft, <em>one collection.</em></h1>
+    <p class="hero-sub">
+      I build things and I draw things — sometimes both at once. This is
+      everything in one place: software projects, ink and digital art, and
+      the game ideas sitting somewhere between the two.
+    </p>
+    <div class="hero-actions">
+      <a class="btn primary" href="#code">See the code</a>
+      <a class="btn ghost" href="#art">See the art</a>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="code">
+  <div class="wrap">
+    <div class="block-head">
+      <div>
+        <div class="block-num">01 — Built</div>
+        <h2 class="block-title">Code</h2>
+      </div>
+      <p class="block-desc">Projects I've shipped, broken, and rebuilt. Swap these for your real repos and screenshots.</p>
+    </div>
+    <div class="grid">
+
+      <a class="card" href="#" target="_blank" rel="noopener">
+        <div class="card-media">screenshot / diagram here</div>
+        <span class="card-tag">Machine Learning</span>
+        <h3>ML-based Intrusion Detection System</h3>
+        <p>Reinforcement-learning approach to detecting anomalous network activity. Originally a dissertation project, extended since.</p>
+        <div class="card-footer">github.com/you/ids-project →</div>
+      </a>
+
+      <a class="card" href="#" target="_blank" rel="noopener">
+        <div class="card-media">screenshot / demo here</div>
+        <span class="card-tag">Tool</span>
+        <h3>Rust Base Design Tool</h3>
+        <p>A personal-use layout planner for base-building in Rust, in the spirit of Fortify.</p>
+        <div class="card-footer">github.com/you/base-tool →</div>
+      </a>
+
+      <a class="card" href="#" target="_blank" rel="noopener">
+        <div class="card-media">screenshot / prototype here</div>
+        <span class="card-tag">Game Dev</span>
+        <h3>Dragon Immersive-Sim Prototype</h3>
+        <p>Early prototype exploring a dragon-themed immersive sim, inspired by games like Peripeteia.</p>
+        <div class="card-footer">github.com/you/dragon-prototype →</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section class="block" id="art">
+  <div class="wrap">
+    <div class="block-head">
+      <div>
+        <div class="block-num">02 — Made</div>
+        <h2 class="block-title">Art</h2>
+      </div>
+      <p class="block-desc">Digital work across Procreate, Clip Studio, and Photoshop — mostly rough, ink-brush line studies.</p>
+    </div>
+    <div class="grid">
+
+      <a class="card" href="#" target="_blank" rel="noopener">
+        <div class="card-media">artwork image here</div>
+        <span class="card-tag">Ink brush study</span>
+        <h3>Line Study 01</h3>
+        <p>Textured brush exploration — rough, hand-drawn line quality.</p>
+        <div class="card-footer">Procreate</div>
+      </a>
+
+      <a class="card" href="#" target="_blank" rel="noopener">
+        <div class="card-media">artwork image here</div>
+        <span class="card-tag">Concept art</span>
+        <h3>Dragon Concept</h3>
+        <p>Early character concept for the dragon-themed game idea.</p>
+        <div class="card-footer">Clip Studio Paint</div>
+      </a>
+
+      <a class="card" href="#" target="_blank" rel="noopener">
+        <div class="card-media">artwork image here</div>
+        <span class="card-tag">Illustration</span>
+        <h3>Untitled Piece</h3>
+        <p>Add a short line on what it is and why you made it.</p>
+        <div class="card-footer">Photoshop</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section class="block" id="about">
+  <div class="wrap">
+    <div class="block-head">
+      <div>
+        <div class="block-num">03 — Me</div>
+        <h2 class="block-title">About</h2>
+      </div>
+    </div>
+    <div class="about-grid">
+      <div>
+        <p>
+          I'm James — I write code and I draw, and I'm still figuring out
+          exactly where those overlap for a career. This site is partly a
+          portfolio and partly how I'm working that out.
+        </p>
+        <p>
+          Replace this paragraph with your own — how you got here, what
+          you're drawn to, what you're looking for next.
+        </p>
+      </div>
+      <ul class="stack-list">
+        <li><span>Code</span><span>Python, front-end basics</span></li>
+        <li><span>Art tools</span><span>Procreate, Clip Studio, Photoshop</span></li>
+        <li><span>Interests</span><span>Bullet-hell games, immersive sims</span></li>
+        <li><span>Based in</span><span>UK</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+    <span class="mono">© 2026 James — built with plain HTML &amp; CSS</span>
+    <div class="socials">
+      <a href="#">GitHub</a>
+      <a href="#">Email</a>
+      <a href="#">Art platform</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
